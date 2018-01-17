@@ -53,16 +53,16 @@ import { IGdprInsertEventState } from './IGdprInsertEventState';
 
 export default class GdprInsertEvent extends React.Component<IGdprInsertEventProps, IGdprInsertEventState> {
 
-   /**
-   * Main constructor for the component
-   */
+  /**
+  * Main constructor for the component
+  */
   constructor() {
     super();
-    
+
     let now: Date = new Date();
 
     this.state = {
-      currentEventType : "DataBreach",
+      currentEventType: "DataBreach",
       isValid: false,
       showDialogResult: false,
       includesChildrenInProgress: false,
@@ -79,9 +79,9 @@ export default class GdprInsertEvent extends React.Component<IGdprInsertEventPro
           <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
             <div className="ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg12">
               <ChoiceGroup
-                label={ strings.EventTypeFieldLabel }
-                onChange={ this._onChangedEventType }
-                options={ [
+                label={strings.EventTypeFieldLabel}
+                onChange={this._onChangedEventType}
+                options={[
                   {
                     key: 'DataBreach',
                     iconProps: { iconName: 'PeopleAlert' },
@@ -119,572 +119,572 @@ export default class GdprInsertEvent extends React.Component<IGdprInsertEventPro
           </div>
           <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
             <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-              <TextField 
-                label={ strings.TitleFieldLabel } 
-                placeholder={ strings.TitleFieldPlaceholder } 
-                required={ true } 
-                onChanged={ this._onChangedTitle }
-                value={ this.state.title }
-                onGetErrorMessage={ this._getErrorMessageTitle }
-                />
+              <TextField
+                label={strings.TitleFieldLabel}
+                placeholder={strings.TitleFieldPlaceholder}
+                required={true}
+                onChanged={this._onChangedTitle}
+                value={this.state.title}
+                onGetErrorMessage={this._getErrorMessageTitle}
+              />
             </div>
           </div>
           <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
             <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-              <TextField 
-                label={ strings.NotifiedByFieldLabel } 
-                placeholder={ strings.NotifiedByFieldPlaceholder } 
-                required={ true } 
-                value={ this.state.notifiedBy }
-                onChanged={ this._onChangedNotifiedBy }
-                onGetErrorMessage={ this._getErrorMessageNotifiedBy }
-                />
+              <TextField
+                label={strings.NotifiedByFieldLabel}
+                placeholder={strings.NotifiedByFieldPlaceholder}
+                required={true}
+                value={this.state.notifiedBy}
+                onChanged={this._onChangedNotifiedBy}
+                onGetErrorMessage={this._getErrorMessageNotifiedBy}
+              />
             </div>
           </div>
           <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
             <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
               <SPPeoplePicker
-                context={ this.props.context }
-                label={ strings.EventAssignedToFieldLabel }
-                required={ true } 
-                onChanged={ this._onChangedEventAssignedTo }
-                placeholder={ strings.EventAssignedToFieldPlaceholder }
-                />
+                context={this.props.context}
+                label={strings.EventAssignedToFieldLabel}
+                required={true}
+                onChanged={this._onChangedEventAssignedTo}
+                placeholder={strings.EventAssignedToFieldPlaceholder}
+              />
             </div>
           </div>
           <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
             <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
               <SPDateTimePicker
-                showTime={ true }                
-                includeSeconds={ false }
-                isRequired={ true } 
-                dateLabel={ strings.EventStartDateFieldLabel }
-                datePlaceholder={ strings.EventStartDateFieldPlaceholder } 
-                hoursLabel={ strings.EventStartTimeHoursFieldLabel }
-                hoursValidationError={ strings.HoursValidationError }
-                minutesLabel={ strings.EventStartTimeMinutesFieldLabel }
-                minutesValidationError={ strings.MinutesValidationError }
-                initialDateTime={ this.state.eventStartDate }
-                onChanged={ this._onChangedEventStartDate }
-                />
+                showTime={true}
+                includeSeconds={false}
+                isRequired={true}
+                dateLabel={strings.EventStartDateFieldLabel}
+                datePlaceholder={strings.EventStartDateFieldPlaceholder}
+                hoursLabel={strings.EventStartTimeHoursFieldLabel}
+                hoursValidationError={strings.HoursValidationError}
+                minutesLabel={strings.EventStartTimeMinutesFieldLabel}
+                minutesValidationError={strings.MinutesValidationError}
+                initialDateTime={this.state.eventStartDate}
+                onChanged={this._onChangedEventStartDate}
+              />
             </div>
           </div>
           <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
             <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
               <SPDateTimePicker
-                showTime={ true }                
-                includeSeconds={ false }
-                isRequired={ true } 
-                dateLabel={ strings.EventEndDateFieldLabel }
-                datePlaceholder={ strings.EventEndDateFieldPlaceholder } 
-                hoursLabel={ strings.EventEndTimeHoursFieldLabel }
-                hoursValidationError={ strings.HoursValidationError }
-                minutesLabel={ strings.EventEndTimeMinutesFieldLabel }
-                minutesValidationError={ strings.MinutesValidationError }
-                initialDateTime={ this.state.eventEndDate }
-                onChanged={ this._onChangedEventEndDate }
-                />
+                showTime={true}
+                includeSeconds={false}
+                isRequired={true}
+                dateLabel={strings.EventEndDateFieldLabel}
+                datePlaceholder={strings.EventEndDateFieldPlaceholder}
+                hoursLabel={strings.EventEndTimeHoursFieldLabel}
+                hoursValidationError={strings.HoursValidationError}
+                minutesLabel={strings.EventEndTimeMinutesFieldLabel}
+                minutesValidationError={strings.MinutesValidationError}
+                initialDateTime={this.state.eventEndDate}
+                onChanged={this._onChangedEventEndDate}
+              />
             </div>
           </div>
           <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
             <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
               <TextField
-                label={ strings.PostEventReportFieldLabel }
-                multiline 
-                autoAdjustHeight 
-                required={ true }
-                value={ this.state.postEventReport }
-                onChanged={ this._onChangedPostEventReport }
-                />
+                label={strings.PostEventReportFieldLabel}
+                multiline
+                autoAdjustHeight
+                required={true}
+                value={this.state.postEventReport}
+                onChanged={this._onChangedPostEventReport}
+              />
             </div>
           </div>
           <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
             <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
               <TextField
-                label={ strings.AdditionalNotesFieldLabel }
-                multiline 
-                autoAdjustHeight 
-                value={ this.state.additionalNotes }
-                onChanged={ this._onChangedAdditionalNotes }
-                />
+                label={strings.AdditionalNotesFieldLabel}
+                multiline
+                autoAdjustHeight
+                value={this.state.additionalNotes}
+                onChanged={this._onChangedAdditionalNotes}
+              />
             </div>
           </div>
           {
             (this.state.currentEventType === "DataBreach") ?
-            <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
-              <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-                <SPTaxonomyPicker 
-                  context={ this.props.context }
-                  termSetName="Breach Type"
-                  label={ strings.BreachTypeFieldLabel }
-                  placeholder={ strings.BreachTypeFieldPlaceholder }
-                  required={ true } 
-                  onChanged={ this._onChangedBreachType }
+              <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
+                <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+                  <SPTaxonomyPicker
+                    context={this.props.context}
+                    termSetName="Breach Type"
+                    label={strings.BreachTypeFieldLabel}
+                    placeholder={strings.BreachTypeFieldPlaceholder}
+                    required={true}
+                    onChanged={this._onChangedBreachType}
                   />
+                </div>
               </div>
-            </div>
-            : null
+              : null
           }
           {
             (this.state.currentEventType === "IdentityRisk") ?
-            <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
-              <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-                <SPTaxonomyPicker 
-                  context={ this.props.context }
-                  termSetName="Risk Type"
-                  label={ strings.RiskTypeFieldLabel }
-                  placeholder={ strings.RiskTypeFieldPlaceholder }
-                  required={ true } 
-                  onChanged={ this._onChangedRiskType }
+              <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
+                <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+                  <SPTaxonomyPicker
+                    context={this.props.context}
+                    termSetName="Risk Type"
+                    label={strings.RiskTypeFieldLabel}
+                    placeholder={strings.RiskTypeFieldPlaceholder}
+                    required={true}
+                    onChanged={this._onChangedRiskType}
                   />
+                </div>
               </div>
-            </div>
-            : null
+              : null
           }
           {
             (this.state.currentEventType === "DataBreach" || this.state.currentEventType === "IdentityRisk") ?
-            <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
-              <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-                <SPTaxonomyPicker 
-                  context={ this.props.context }
-                  termSetName="Severity"
-                  label={ strings.SeverityFieldLabel }
-                  placeholder={ strings.SeverityFieldPlaceholder }
-                  required={ true } 
-                  onChanged={ this._onChangedSeverity }
+              <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
+                <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+                  <SPTaxonomyPicker
+                    context={this.props.context}
+                    termSetName="Severity"
+                    label={strings.SeverityFieldLabel}
+                    placeholder={strings.SeverityFieldPlaceholder}
+                    required={true}
+                    onChanged={this._onChangedSeverity}
                   />
+                </div>
               </div>
-            </div>
-            : null
+              : null
           }
           {
             (this.state.currentEventType === "DataBreach") ?
-            <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
-              <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-                <Toggle
-                  defaultChecked={ false }
-                  label={ strings.DPANotifiedFieldLabel }
-                  onText={ strings.YesText }
-                  offText={ strings.NoText } 
-                  checked={ this.state.dpaNotified }
-                  onChanged={ this._onChangedDPANotified }
+              <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
+                <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+                  <Toggle
+                    defaultChecked={false}
+                    label={strings.DPANotifiedFieldLabel}
+                    onText={strings.YesText}
+                    offText={strings.NoText}
+                    checked={this.state.dpaNotified}
+                    onChanged={this._onChangedDPANotified}
                   />
+                </div>
               </div>
-            </div>
-            : null
+              : null
           }
           {
             (this.state.currentEventType === "DataBreach") ?
-            <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
-              <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-                { this.state.dpaNotified ?
-                  <SPDateTimePicker
-                    showTime={ true }                
-                    includeSeconds={ false }
-                    isRequired={ this.state.dpaNotified } 
-                    dateLabel={ strings.DPANotificationDateFieldLabel }
-                    datePlaceholder={ strings.DPANotificationDateFieldPlaceholder } 
-                    hoursLabel={ strings.DPANotificationTimeHoursFieldLabel }
-                    minutesLabel={ strings.DPANotificationTimeMinutesFieldLabel }
-                    initialDateTime={ this.state.dpaNotificationDate }
-                    onChanged={ this._onChangedDPANotificationDate }
+              <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
+                <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+                  {this.state.dpaNotified ?
+                    <SPDateTimePicker
+                      showTime={true}
+                      includeSeconds={false}
+                      isRequired={this.state.dpaNotified}
+                      dateLabel={strings.DPANotificationDateFieldLabel}
+                      datePlaceholder={strings.DPANotificationDateFieldPlaceholder}
+                      hoursLabel={strings.DPANotificationTimeHoursFieldLabel}
+                      minutesLabel={strings.DPANotificationTimeMinutesFieldLabel}
+                      initialDateTime={this.state.dpaNotificationDate}
+                      onChanged={this._onChangedDPANotificationDate}
                     />
-                  : null}
+                    : null}
+                </div>
               </div>
-            </div>
-            : null
+              : null
           }
           {
             (this.state.currentEventType === "DataBreach" && !this.state.toBeDetermined) ?
-            <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
-              <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-                <TextField
-                  label={ strings.EstimatedAffectedSubjectsFieldLabel }
-                  autoAdjustHeight
-                  value={ this.state.estimatedAffectedSubjects && this.state.estimatedAffectedSubjects.toString() }
-                  onChanged={ this._onChangedEstimatedAffectedSubjects }
-                  onGetErrorMessage={ this._getErrorMessageEstimatedAffectedSubjects }
+              <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
+                <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+                  <TextField
+                    label={strings.EstimatedAffectedSubjectsFieldLabel}
+                    autoAdjustHeight
+                    value={this.state.estimatedAffectedSubjects && this.state.estimatedAffectedSubjects.toString()}
+                    onChanged={this._onChangedEstimatedAffectedSubjects}
+                    onGetErrorMessage={this._getErrorMessageEstimatedAffectedSubjects}
                   />
+                </div>
               </div>
-            </div>
-            : null
+              : null
           }
           {
             (this.state.currentEventType === "DataBreach") ?
-            <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
-              <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-                <Toggle
-                  defaultChecked={ false }
-                  label={ strings.ToBeDeterminedFieldLabel }
-                  onText={ strings.YesText }
-                  offText={ strings.NoText } 
-                  checked={ this.state.toBeDetermined }
-                  onChanged={ this._onChangedEstimatedAffectedSubjectsToBeDetermined }
+              <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
+                <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+                  <Toggle
+                    defaultChecked={false}
+                    label={strings.ToBeDeterminedFieldLabel}
+                    onText={strings.YesText}
+                    offText={strings.NoText}
+                    checked={this.state.toBeDetermined}
+                    onChanged={this._onChangedEstimatedAffectedSubjectsToBeDetermined}
                   />
+                </div>
               </div>
-            </div>
-            : null
+              : null
           }
           {
             ((this.state.currentEventType === "DataBreach" && !this.state.includesChildrenInProgress) || this.state.currentEventType === "DataArchived") ?
-            <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
-              <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-                <Toggle
-                  defaultChecked={ false }
-                  label={ strings.IncludesChildrenFieldLabel }
-                  onText={ strings.YesText }
-                  offText={ strings.NoText }
-                  checked={ this.state.includesChildren }
-                  onChanged={ this._onChangedIncludesChildren }
+              <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
+                <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+                  <Toggle
+                    defaultChecked={false}
+                    label={strings.IncludesChildrenFieldLabel}
+                    onText={strings.YesText}
+                    offText={strings.NoText}
+                    checked={this.state.includesChildren}
+                    onChanged={this._onChangedIncludesChildren}
                   />
+                </div>
               </div>
-            </div>
-            : null
+              : null
           }
           {
             (this.state.currentEventType === "DataBreach") ?
-            <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
-              <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-                <Toggle
-                  defaultChecked={ false }
-                  label={ strings.IncludesChildrenInProgressFieldLabel }
-                  onText={ strings.YesText }
-                  offText={ strings.NoText } 
-                  checked={ this.state.includesChildrenInProgress }
-                  onChanged={ this._onChangedIncludesChildrenInProgress }
+              <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
+                <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+                  <Toggle
+                    defaultChecked={false}
+                    label={strings.IncludesChildrenInProgressFieldLabel}
+                    onText={strings.YesText}
+                    offText={strings.NoText}
+                    checked={this.state.includesChildrenInProgress}
+                    onChanged={this._onChangedIncludesChildrenInProgress}
                   />
+                </div>
               </div>
-            </div>
-            : null
+              : null
           }
           {
             (this.state.currentEventType === "DataBreach") ?
-            <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
-              <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-                <TextField
-                  label={ strings.ActionPlanFieldLabel }
-                  multiline 
-                  autoAdjustHeight
-                  value={ this.state.actionPlan }
-                  onChanged={ this._onChangedActionPlan }
+              <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
+                <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+                  <TextField
+                    label={strings.ActionPlanFieldLabel}
+                    multiline
+                    autoAdjustHeight
+                    value={this.state.actionPlan}
+                    onChanged={this._onChangedActionPlan}
                   />
+                </div>
               </div>
-            </div>
-            : null
+              : null
           }
           {
             (this.state.currentEventType === "DataBreach") ?
-            <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
-              <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-                <Toggle
-                  defaultChecked={ false }
-                  label={ strings.BreachResolvedFieldLabel }
-                  onText={ strings.YesText }
-                  offText={ strings.NoText } 
-                  checked={ this.state.breachResolved }
-                  onChanged={ this._onChangedBreachResolved }
+              <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
+                <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+                  <Toggle
+                    defaultChecked={false}
+                    label={strings.BreachResolvedFieldLabel}
+                    onText={strings.YesText}
+                    offText={strings.NoText}
+                    checked={this.state.breachResolved}
+                    onChanged={this._onChangedBreachResolved}
                   />
+                </div>
               </div>
-            </div>
-            : null
+              : null
           }
           {
             (this.state.currentEventType === "DataBreach") ?
-            <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
-              <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-                <TextField
-                  label={ strings.ActionsTakenFieldLabel }
-                  multiline 
-                  autoAdjustHeight
-                  value={ this.state.actionsTaken }
-                  onChanged={ this._onChangedActionsTaken }
+              <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
+                <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+                  <TextField
+                    label={strings.ActionsTakenFieldLabel}
+                    multiline
+                    autoAdjustHeight
+                    value={this.state.actionsTaken}
+                    onChanged={this._onChangedActionsTaken}
                   />
+                </div>
               </div>
-            </div>
-            : null
+              : null
           }
           {
             (this.state.currentEventType === "DataConsent" || this.state.currentEventType === "DataArchived") ?
-            <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
-              <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-                <SPTaxonomyPicker 
-                  context={ this.props.context }
-                  termSetName="Sensitive Data Type"
-                  label={ strings.IncludesSensitiveDataFieldLabel }
-                  placeholder={ strings.IncludesSensitiveDataFieldPlaceholder }
-                  required={ false } 
-                  onChanged={ this._onChangedIncludesSensitiveData }
+              <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
+                <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+                  <SPTaxonomyPicker
+                    context={this.props.context}
+                    termSetName="Sensitive Data Type"
+                    label={strings.IncludesSensitiveDataFieldLabel}
+                    placeholder={strings.IncludesSensitiveDataFieldPlaceholder}
+                    required={false}
+                    onChanged={this._onChangedIncludesSensitiveData}
                   />
+                </div>
               </div>
-            </div>
-            : null
+              : null
           }
           {
             (this.state.currentEventType === "DataConsent") ?
-            <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
-              <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-                <Toggle
-                  defaultChecked={ false }
-                  label={ strings.ConsentIsInternalFieldLabel }
-                  onText={ strings.InternalConsentText }
-                  offText={ strings.ExternalConsentText } 
-                  checked={ this.state.consentIsInternal }
-                  onChanged={ this._onChangedConsentIsInternal }
+              <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
+                <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+                  <Toggle
+                    defaultChecked={false}
+                    label={strings.ConsentIsInternalFieldLabel}
+                    onText={strings.InternalConsentText}
+                    offText={strings.ExternalConsentText}
+                    checked={this.state.consentIsInternal}
+                    onChanged={this._onChangedConsentIsInternal}
                   />
+                </div>
               </div>
-            </div>
-            : null
+              : null
           }
           {
             (this.state.currentEventType === "DataConsent") ?
-            <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
-              <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-                <Toggle
-                  defaultChecked={ false }
-                  label={ strings.DataSubjectIsChildFieldLabel }
-                  onText={ strings.YesText }
-                  offText={ strings.NoText }
-                  checked={ this.state.dataSubjectIsChild }
-                  onChanged={ this._onChangedDataSubjectIsChild }
+              <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
+                <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+                  <Toggle
+                    defaultChecked={false}
+                    label={strings.DataSubjectIsChildFieldLabel}
+                    onText={strings.YesText}
+                    offText={strings.NoText}
+                    checked={this.state.dataSubjectIsChild}
+                    onChanged={this._onChangedDataSubjectIsChild}
                   />
+                </div>
               </div>
-            </div>
-            : null
+              : null
           }
           {
             (this.state.currentEventType === "DataConsent") ?
-            <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
-              <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-                <Toggle
-                  defaultChecked={ false }
-                  label={ strings.IndirectDataProviderFieldLabel }
-                  onText={ strings.YesText }
-                  offText={ strings.NoText }
-                  checked={ this.state.indirectDataProvider }
-                  onChanged={ this._onChangedIndirectDataProvider }
+              <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
+                <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+                  <Toggle
+                    defaultChecked={false}
+                    label={strings.IndirectDataProviderFieldLabel}
+                    onText={strings.YesText}
+                    offText={strings.NoText}
+                    checked={this.state.indirectDataProvider}
+                    onChanged={this._onChangedIndirectDataProvider}
                   />
+                </div>
               </div>
-            </div>
-            : null
+              : null
           }
           {
             (this.state.currentEventType === "DataConsent" && this.state.indirectDataProvider) ?
-            <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
-              <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-                <TextField
-                  label={ strings.DataProviderFieldLabel }
-                  autoAdjustHeight 
-                  value={ this.state.dataProvider }
-                  onChanged={ this._onChangedDataProvider }
+              <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
+                <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+                  <TextField
+                    label={strings.DataProviderFieldLabel}
+                    autoAdjustHeight
+                    value={this.state.dataProvider}
+                    onChanged={this._onChangedDataProvider}
                   />
+                </div>
               </div>
-            </div>
-            : null
+              : null
           }
           {
             (this.state.currentEventType === "DataConsent") ?
-            <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
-              <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-                <TextField
-                  label={ strings.ConsentNotesFieldLabel }
-                  multiline 
-                  autoAdjustHeight 
-                  value={ this.state.consentNotes }
-                  onChanged={ this._onChangedConsentNotes }
+              <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
+                <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+                  <TextField
+                    label={strings.ConsentNotesFieldLabel}
+                    multiline
+                    autoAdjustHeight
+                    value={this.state.consentNotes}
+                    onChanged={this._onChangedConsentNotes}
                   />
+                </div>
               </div>
-            </div>
-            : null
+              : null
           }
           {
             (this.state.currentEventType === "DataConsent") ?
-            <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
-              <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-                <SPTaxonomyPicker 
-                  context={ this.props.context }
-                  termSetName="Consent Type"
-                  label={ strings.ConsentTypeFieldLabel }
-                  placeholder={ strings.ConsentTypeFieldPlaceholder }
-                  required={ true } 
-                  onChanged={ this._onChangedConsentType }
+              <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
+                <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+                  <SPTaxonomyPicker
+                    context={this.props.context}
+                    termSetName="Consent Type"
+                    label={strings.ConsentTypeFieldLabel}
+                    placeholder={strings.ConsentTypeFieldPlaceholder}
+                    required={true}
+                    onChanged={this._onChangedConsentType}
                   />
+                </div>
               </div>
-            </div>
-            : null
-          }        
-          {
-            (this.state.currentEventType === "DataConsentWithdrawal") ?
-            <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
-              <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-                <SPTaxonomyPicker 
-                  context={ this.props.context }
-                  termSetName="Consent Type"
-                  label={ strings.ConsentWithdrawalTypeFieldLabel }
-                  placeholder={ strings.ConsentWithdrawalTypeFieldPlaceholder }
-                  required={ true }
-                  onChanged={ this._onChangedConsentWithdrawalType }
-                  />
-              </div>
-            </div>
-            : null
+              : null
           }
           {
             (this.state.currentEventType === "DataConsentWithdrawal") ?
-            <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
-              <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-                <Toggle
-                  defaultChecked={ false }
-                  label={ strings.OriginalConsentAvailableFieldLabel }
-                  onText={ strings.YesText }
-                  offText={ strings.NoText }
-                  checked={ this.state.originalConsentAvailable }
-                  onChanged={ this._onChangedOriginalConsentAvailable }
+              <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
+                <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+                  <SPTaxonomyPicker
+                    context={this.props.context}
+                    termSetName="Consent Type"
+                    label={strings.ConsentWithdrawalTypeFieldLabel}
+                    placeholder={strings.ConsentWithdrawalTypeFieldPlaceholder}
+                    required={true}
+                    onChanged={this._onChangedConsentWithdrawalType}
                   />
+                </div>
               </div>
-            </div>
-            : null
+              : null
+          }
+          {
+            (this.state.currentEventType === "DataConsentWithdrawal") ?
+              <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
+                <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+                  <Toggle
+                    defaultChecked={false}
+                    label={strings.OriginalConsentAvailableFieldLabel}
+                    onText={strings.YesText}
+                    offText={strings.NoText}
+                    checked={this.state.originalConsentAvailable}
+                    onChanged={this._onChangedOriginalConsentAvailable}
+                  />
+                </div>
+              </div>
+              : null
           }
           {
             (this.state.currentEventType === "DataConsentWithdrawal" && this.state.originalConsentAvailable) ?
-            <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
-              <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-                <SPLookupItemsPicker 
-                  sourceListId={ this.props.targetList }
-                  context={ this.props.context }
-                  label={ strings.OriginalConsentFieldLabel }
-                  placeholder={ strings.OriginalConsentFieldPlaceholder }
-                  required={ this.state.originalConsentAvailable } 
-                  onChanged={ this._onChangedOriginalConsent }
+              <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
+                <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+                  <SPLookupItemsPicker
+                    sourceListId={this.props.targetList}
+                    context={this.props.context}
+                    label={strings.OriginalConsentFieldLabel}
+                    placeholder={strings.OriginalConsentFieldPlaceholder}
+                    required={this.state.originalConsentAvailable}
+                    onChanged={this._onChangedOriginalConsent}
                   />
+                </div>
               </div>
-            </div>
-            : null
+              : null
           }
           {
             (this.state.currentEventType === "DataConsentWithdrawal") ?
-            <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
-              <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-                <Toggle
-                  defaultChecked={ false }
-                  label={ strings.NotifyApplicableFieldLabel }
-                  onText={ strings.YesText }
-                  offText={ strings.NoText }
-                  checked={ this.state.notifyApplicable }
-                  onChanged={ this._onChangedNotifyApplicable }
+              <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
+                <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+                  <Toggle
+                    defaultChecked={false}
+                    label={strings.NotifyApplicableFieldLabel}
+                    onText={strings.YesText}
+                    offText={strings.NoText}
+                    checked={this.state.notifyApplicable}
+                    onChanged={this._onChangedNotifyApplicable}
                   />
+                </div>
               </div>
-            </div>
-            : null
+              : null
           }
           {
             (this.state.currentEventType === "DataProcessing") ?
-            <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
-              <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-                <SPTaxonomyPicker 
-                  context={ this.props.context }
-                  termSetName="Processing Type"
-                  label={ strings.ProcessingTypeFieldLabel }
-                  placeholder={ strings.ProcessingTypeFieldPlaceholder }
-                  required={ true }
-                  onChanged={ this._onChangedProcessingType }
+              <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
+                <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+                  <SPTaxonomyPicker
+                    context={this.props.context}
+                    termSetName="Processing Type"
+                    label={strings.ProcessingTypeFieldLabel}
+                    placeholder={strings.ProcessingTypeFieldPlaceholder}
+                    required={true}
+                    onChanged={this._onChangedProcessingType}
                   />
+                </div>
               </div>
-            </div>
-            : null
+              : null
           }
           {
             (this.state.currentEventType === "DataProcessing") ?
-            <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
-              <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-                <SPPeoplePicker
-                  context={ this.props.context }
-                  label={ strings.ProcessorsFieldLabel }
-                  placeholder={ strings.ProcessorsFieldPlaceholder }
-                  required={ true }
-                  onChanged={ this._onChangedProcessors }
+              <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
+                <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+                  <SPPeoplePicker
+                    context={this.props.context}
+                    label={strings.ProcessorsFieldLabel}
+                    placeholder={strings.ProcessorsFieldPlaceholder}
+                    required={true}
+                    onChanged={this._onChangedProcessors}
                   />
+                </div>
               </div>
-            </div>
-            : null
+              : null
           }
           {
             (this.state.currentEventType === "DataArchived") ?
-            <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
-              <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-                <TextField
-                  label={ strings.ArchivedDataFieldLabel }
-                  multiline 
-                  autoAdjustHeight
-                  value={ this.state.archivedData }
-                  onChanged={ this._onChangedArchivedData }
+              <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
+                <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+                  <TextField
+                    label={strings.ArchivedDataFieldLabel}
+                    multiline
+                    autoAdjustHeight
+                    value={this.state.archivedData}
+                    onChanged={this._onChangedArchivedData}
                   />
+                </div>
               </div>
-            </div>
-            : null
+              : null
           }
           {
             (this.state.currentEventType === "DataArchived") ?
-            <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
-              <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-                <Toggle
-                  defaultChecked={ false }
-                  label={ strings.AnonymizeFieldLabel }
-                  onText={ strings.YesText }
-                  offText={ strings.NoText }
-                  checked={ this.state.anonymize }
-                  onChanged={ this._onChangedAnonymize }
+              <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
+                <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+                  <Toggle
+                    defaultChecked={false}
+                    label={strings.AnonymizeFieldLabel}
+                    onText={strings.YesText}
+                    offText={strings.NoText}
+                    checked={this.state.anonymize}
+                    onChanged={this._onChangedAnonymize}
                   />
+                </div>
               </div>
-            </div>
-            : null
+              : null
           }
           {
             (this.state.currentEventType === "DataArchived") ?
-            <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
-              <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-                <TextField
-                  label={ strings.ArchivingNotesFieldLabel }
-                  multiline 
-                  autoAdjustHeight 
-                  value={ this.state.archivingNotes }
-                  onChanged={ this._onChangedArchivingNotes }
+              <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
+                <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+                  <TextField
+                    label={strings.ArchivingNotesFieldLabel}
+                    multiline
+                    autoAdjustHeight
+                    value={this.state.archivingNotes}
+                    onChanged={this._onChangedArchivingNotes}
                   />
+                </div>
               </div>
-            </div>
-            : null
+              : null
           }
           <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
             <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
               <PrimaryButton
                 data-automation-id='saveRequest'
-                label={ strings.SaveButtonText  }
-                disabled={ !this.state.isValid }
-                onClick={ this._saveClick }
-                />
-                &nbsp;&nbsp;
+                label={strings.SaveButtonText}
+                disabled={!this.state.isValid}
+                onClick={this._saveClick}
+              />
+              &nbsp;&nbsp;
               <Button
                 data-automation-id='cancel'
-                label={ strings.CancelButtonText  }
-                onClick={ this._cancelClick }
-                />
+                label={strings.CancelButtonText}
+                onClick={this._cancelClick}
+              />
             </div>
           </div>
         </div>
         <Dialog
-            isOpen={ this.state.showDialogResult }
-            type={ DialogType.normal }
-            onDismiss={ this._closeInsertDialogResult }
-            title={ strings.ItemInsertedDialogTitle }
-            subText={ strings.ItemInsertedDialogSubText }
-            isBlocking={ true }
-          >
+          isOpen={this.state.showDialogResult}
+          type={DialogType.normal}
+          onDismiss={this._closeInsertDialogResult}
+          title={strings.ItemInsertedDialogTitle}
+          subText={strings.ItemInsertedDialogSubText}
+          isBlocking={true}
+        >
           <DialogFooter>
             <PrimaryButton
-              onClick={ this._insertNextClick } 
-              label={ strings.InsertNextLabel } />
-            <DefaultButton 
-              onClick={ this._goHomeClick }
-              label={ strings.GoHomeLabel } />
+              onClick={this._insertNextClick}
+              label={strings.InsertNextLabel} />
+            <DefaultButton
+              onClick={this._goHomeClick}
+              label={strings.GoHomeLabel} />
           </DialogFooter>
         </Dialog>
       </div>
@@ -711,327 +711,278 @@ export default class GdprInsertEvent extends React.Component<IGdprInsertEventPro
 
   @autobind
   private _onChangedEventType(ev: React.FormEvent<HTMLInputElement>, option: any) {
-    this.state.currentEventType = option.key;
-    this.state.breachType = null;
-    this.state.riskType = null;
-    this.state.severity = null;
-    this.state.includesSensitiveData = null;
-    this.state.consentType = [];
-    this.state.consentWithdrawalType = [];
-    this.state.originalConsent = 0;
-    this.state.processingType = null;
-    this.state.processors = [];
-    
-    this._updateState(this.state);
+    let state: any = this.state;
+    state.currentEventType = option.key;
+    state.breachType = null;
+    state.riskType = null;
+    state.severity = null;
+    state.includesSensitiveData = null;
+    state.consentType = [];
+    state.consentWithdrawalType = [];
+    state.originalConsent = 0;
+    state.processingType = null;
+    state.processors = [];
+
+    this._updateState(state);
   }
 
   @autobind
   private _onChangedEstimatedAffectedSubjectsToBeDetermined(checked: boolean): void {
-    this.state.toBeDetermined = checked;
-    this._updateState(this.state);
+    this._updateState({ ...this.state, toBeDetermined: checked });
   }
 
   private _getErrorMessageEstimatedAffectedSubjects(value: string): string {
 
-    if (value != null && value.length > 0 && isNaN(Number(value)))
-    {
-      return(strings.EstimatedAffectedSubjectsFieldValidationErrorMessage);
+    if (value != null && value.length > 0 && isNaN(Number(value))) {
+      return (strings.EstimatedAffectedSubjectsFieldValidationErrorMessage);
     }
-    else
-    {
-      return("");
+    else {
+      return ("");
     }
   }
 
   @autobind
   private _onChangedTitle(newValue: string): void {
-    this.state.title = newValue;
-    this._updateState(this.state);
+    this._updateState({ ...this.state, title: newValue });
   }
 
   @autobind
   private _onChangedNotifiedBy(newValue: string): void {
-    this.state.notifiedBy = newValue;
-    this._updateState(this.state);
+    this._updateState({ ...this.state, notifiedBy: newValue });
   }
 
   @autobind
   private _onChangedEventAssignedTo(items: string[]): void {
-    this.state.eventAssignedTo = items[0];
-    this._updateState(this.state);
+    this._updateState({ ...this.state, eventAssignedTo: items[0] });
   }
 
   @autobind
   private _onChangedEventStartDate(newValue: Date): void {
-    this.state.eventStartDate = newValue;
-    this._updateState(this.state);
+    this._updateState({ ...this.state, eventStartDate: newValue });
   }
 
   @autobind
   private _onChangedEventEndDate(newValue: Date): void {
-    this.state.eventEndDate = newValue;
-    this._updateState(this.state);
+    this._updateState({ ...this.state, eventEndDate: newValue });
   }
 
   @autobind
   private _onChangedPostEventReport(newValue: string): void {
-    this.state.postEventReport = newValue;
-    this._updateState(this.state);
+    this._updateState({ ...this.state, postEventReport: newValue });
   }
 
   @autobind
   private _onChangedAdditionalNotes(newValue: string): void {
-    this.state.additionalNotes = newValue;
-    this._updateState(this.state);
+    this._updateState({ ...this.state, additionalNotes: newValue });
   }
 
   @autobind
   private _onChangedBreachType(terms: ISPTermObject[]): void {
-    if (terms != null && terms.length > 0)
-    {
-      this.state.breachType = terms[0];
+    if (terms != null && terms.length > 0) {
+      this._updateState({ ...this.state, breachType: terms[0] });
     }
-    else
-    {
-      this.state.breachType = null;
+    else {
+      this._updateState({ ...this.state, breachType: null });
     }
-    this._updateState(this.state);
   }
 
   @autobind
   private _onChangedRiskType(terms: ISPTermObject[]): void {
-    if (terms != null && terms.length > 0)
-    {
-      this.state.riskType = terms;
+    if (terms != null && terms.length > 0) {
+      this._updateState({ ...this.state, riskType: terms });
     }
-    else
-    {
-      this.state.riskType = [];
+    else {
+      this._updateState({ ...this.state, riskType: [] });
     }
-    this._updateState(this.state);
   }
 
   @autobind
   private _onChangedSeverity(terms: ISPTermObject[]): void {
-    if (terms != null && terms.length > 0)
-    {
-      this.state.severity = terms[0];
+    if (terms != null && terms.length > 0) {
+      this._updateState({ ...this.state, severity: terms[0] });
     }
-    else
-    {
-      this.state.severity = null;
+    else {
+      this._updateState({ ...this.state, severity: null });
     }
-    this._updateState(this.state);
   }
 
   @autobind
   private _onChangedDPANotified(newValue: boolean): void {
-    this.state.dpaNotified = newValue;
-    this._updateState(this.state);
+    this._updateState({ ...this.state, dpaNotified: newValue });
   }
 
   @autobind
   private _onChangedDPANotificationDate(newValue: Date): void {
-    this.state.dpaNotificationDate = newValue;
-    this._updateState(this.state);
+    this._updateState({ ...this.state, dpaNotificationDate: newValue });
+
   }
 
   @autobind
   private _onChangedIncludesChildrenInProgress(checked: boolean): void {
-    this.state.includesChildrenInProgress = checked;
-    this._updateState(this.state);
+    this._updateState({ ...this.state, includesChildrenInProgress: checked });
   }
 
   @autobind
   private _onChangedEstimatedAffectedSubjects(newValue: number): void {
-    this.state.estimatedAffectedSubjects = newValue;
-    this._updateState(this.state);
+    this._updateState({ ...this.state, estimatedAffectedSubjects: newValue });
   }
 
   @autobind
   private _onChangedIncludesChildren(newValue: boolean): void {
-    this.state.includesChildren = newValue;
-    this._updateState(this.state);
+    this._updateState({ ...this.state, includesChildren: newValue });
+
   }
 
   @autobind
   private _onChangedActionPlan(newValue: string): void {
-    this.state.actionPlan = newValue;
-    this._updateState(this.state);
+    this._updateState({ ...this.state, actionPlan: newValue });
+
   }
 
   @autobind
   private _onChangedBreachResolved(newValue: boolean): void {
-    this.state.breachResolved = newValue;
-    this._updateState(this.state);
+    this._updateState({ ...this.state, breachResolved: newValue });
   }
 
   @autobind
   private _onChangedActionsTaken(newValue: string): void {
-    this.state.actionsTaken = newValue;
-    this._updateState(this.state);
+    this._updateState({ ...this.state, actionsTaken: newValue });
+
   }
 
   @autobind
   private _onChangedIncludesSensitiveData(terms: ISPTermObject[]): void {
-    if (terms != null && terms.length > 0)
-    {
-      this.state.includesSensitiveData = terms[0];
+    if (terms != null && terms.length > 0) {
+      this._updateState({ ...this.state, includesSensitiveData: terms[0] });
     }
-    else
-    {
-      this.state.includesSensitiveData = null;
+    else {
+      this._updateState({ ...this.state, includesSensitiveData: null });
     }
-    this._updateState(this.state);
   }
-  
+
   @autobind
   private _onChangedConsentIsInternal(checked: boolean): void {
-    this.state.consentIsInternal = checked;
-    this._updateState(this.state);
+    this._updateState({ ...this.state, consentIsInternal: checked });
   }
 
   @autobind
   private _onChangedDataSubjectIsChild(checked: boolean): void {
-    this.state.dataSubjectIsChild = checked;
-    this._updateState(this.state);
+    this._updateState({ ...this.state, dataSubjectIsChild: checked });
   }
-  
+
   @autobind
   private _onChangedIndirectDataProvider(checked: boolean): void {
-    this.state.indirectDataProvider = checked;
-    this._updateState(this.state);
+    this._updateState({ ...this.state, indirectDataProvider: checked });
   }
 
   @autobind
   private _onChangedDataProvider(newValue: string): void {
-    this.state.dataProvider = newValue;
-    this._updateState(this.state);
+    this._updateState({ ...this.state, dataProvider: newValue });
   }
 
   @autobind
   private _onChangedConsentNotes(newValue: string): void {
-    this.state.consentNotes = newValue;
-    this._updateState(this.state);
+    this._updateState({ ...this.state, consentNotes: newValue });
   }
 
   @autobind
   private _onChangedConsentType(terms: ISPTermObject[]): void {
-    if (terms != null && terms.length > 0)
-    {
-      this.state.consentType = terms;
+    if (terms != null && terms.length > 0) {
+      this._updateState({ ...this.state, consentType: terms });
     }
-    else
-    {
-      this.state.consentType = [];
+    else {
+      this._updateState({ ...this.state, consentType: [] });
     }
-    this._updateState(this.state);
   }
 
   @autobind
   private _onChangedConsentWithdrawalType(terms: ISPTermObject[]): void {
-    if (terms != null && terms.length > 0)
-    {
-      this.state.consentWithdrawalType = terms;
+    if (terms != null && terms.length > 0) {
+      this._updateState({ ...this.state, consentWithdrawalType: terms });
     }
-    else
-    {
-      this.state.consentWithdrawalType = [];
+    else {
+      this._updateState({ ...this.state, consentWithdrawalType: [] });
     }
-    this._updateState(this.state);
   }
 
   @autobind
   private _onChangedConsentWithdrawalNotes(newValue: string): void {
-    this.state.consentWithdrawalNotes = newValue;
-    this._updateState(this.state);
+    this._updateState({ ...this.state, consentWithdrawalNotes: newValue });
   }
 
   @autobind
   private _onChangedOriginalConsentAvailable(checked: boolean): void {
-    this.state.originalConsentAvailable = checked;
-    this._updateState(this.state);
+    this._updateState({ ...this.state, originalConsentAvailable: checked });
   }
 
   @autobind
   private _onChangedOriginalConsent(selectedItemIds: number[]): void {
-    this.state.originalConsent = selectedItemIds[0];
-    this._updateState(this.state);
+    this._updateState({ ...this.state, originalConsent: selectedItemIds[0] });
   }
 
   @autobind
   private _onChangedNotifyApplicable(checked: boolean): void {
-    this.state.notifyApplicable = checked;
-    this._updateState(this.state);
+    this._updateState({ ...this.state, notifyApplicable: checked });
   }
 
   @autobind
   private _onChangedProcessingType(terms: ISPTermObject[]): void {
-    if (terms != null && terms.length > 0)
-    {
-      this.state.processingType = terms;
+    if (terms != null && terms.length > 0) {
+      this._updateState({ ...this.state, processingType: terms });
     }
-    else
-    {
-      this.state.processingType = [];
+    else {
+      this._updateState({ ...this.state, processingType: [] });
     }
-    this._updateState(this.state);
   }
 
   @autobind
   private _onChangedProcessors(items: string[]): void {
-    this.state.processors = items;
-    this._updateState(this.state);
+    this._updateState({ ...this.state, processors: items });
   }
 
   @autobind
   private _onChangedArchivedData(newValue: string): void {
-    this.state.archivedData = newValue;
-    this._updateState(this.state);
+    this._updateState({ ...this.state, archivedData: newValue });
   }
 
   @autobind
   private _onChangedAnonymize(checked: boolean): void {
-    this.state.anonymize = checked;
-    this._updateState(this.state);
+    this._updateState({ ...this.state, anonymize: checked });
   }
 
   @autobind
   private _onChangedArchivingNotes(newValue: string): void {
-    this.state.archivingNotes = newValue;
-    this._updateState(this.state);
+    this._updateState({ ...this.state, archivingNotes: newValue });
   }
 
   @autobind
   private _saveClick(event) {
     event.preventDefault();
-    if (this._formIsValid())
-    {
+    if (this._formIsValid()) {
       let dataManager = new GDPRDataManager();
       dataManager.setup({
         eventsListId: this.props.targetList,
       });
 
-      let eventItem : any = {
-          kind: this.state.currentEventType,
-          title: this.state.title,
-          notifiedBy: this.state.notifiedBy,
-          eventAssignedTo: this.state.eventAssignedTo,
-          eventStartDate: this.state.eventStartDate,
-          eventEndDate: this.state.eventEndDate,
-          postReport: this.state.postEventReport,
-          additionalNotes: this.state.additionalNotes,
-        };
+      let eventItem: any = {
+        kind: this.state.currentEventType,
+        title: this.state.title,
+        notifiedBy: this.state.notifiedBy,
+        eventAssignedTo: this.state.eventAssignedTo,
+        eventStartDate: this.state.eventStartDate,
+        eventEndDate: this.state.eventEndDate,
+        postReport: this.state.postEventReport,
+        additionalNotes: this.state.additionalNotes,
+      };
 
-      switch (eventItem.kind)
-      {
+      switch (eventItem.kind) {
         case "DataBreach":
           eventItem.breachType = {
             Label: this.state.breachType.name,
             TermGuid: this.state.breachType.guid,
             WssId: -1,
           };
-          eventItem.severity =  {
+          eventItem.severity = {
             Label: this.state.severity.name,
             TermGuid: this.state.severity.guid,
             WssId: -1,
@@ -1054,7 +1005,7 @@ export default class GdprInsertEvent extends React.Component<IGdprInsertEventPro
               WssId: -1,
             };
           });
-          eventItem.severity =  {
+          eventItem.severity = {
             Label: this.state.severity.name,
             TermGuid: this.state.severity.guid,
             WssId: -1,
@@ -1120,8 +1071,7 @@ export default class GdprInsertEvent extends React.Component<IGdprInsertEventPro
       }
 
       dataManager.insertNewEvent(eventItem).then((itemId: number) => {
-        this.state.showDialogResult = true;
-        this._updateState(this.state);
+        this._updateState({ ...this.state, showDialogResult: true });
       });
     }
   }
@@ -1132,8 +1082,8 @@ export default class GdprInsertEvent extends React.Component<IGdprInsertEventPro
     window.history.back();
   }
 
-  private _formIsValid() : boolean {
-    let isValid: boolean = 
+  private _formIsValid(): boolean {
+    let isValid: boolean =
       (this.state.title != null && this.state.title.length > 0) &&
       (this.state.notifiedBy != null && this.state.notifiedBy.length > 0) &&
       (this.state.eventAssignedTo != null && this.state.eventAssignedTo.length > 0) &&
@@ -1163,13 +1113,12 @@ export default class GdprInsertEvent extends React.Component<IGdprInsertEventPro
     if (this.state.currentEventType == "DataArchived") {
     }
 
-    return(isValid);
+    return (isValid);
   }
 
   @autobind
   private _closeInsertDialogResult() {
-    this.state.showDialogResult = false;
-    this._updateState(this.state);
+    this._updateState({ ...this.state, showDialogResult: false });
   }
 
   @autobind

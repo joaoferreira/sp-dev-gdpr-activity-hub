@@ -20,7 +20,6 @@
       "no-arg": false,
       "no-console": false,
       "no-construct": false,
-      "no-duplicate-case": true,
       "no-duplicate-variable": true,
       "no-eval": false,
       "no-function-expression": true,
@@ -29,7 +28,6 @@
       "no-switch-case-fall-through": true,
       "no-unnecessary-semicolons": true,
       "no-unused-expression": true,
-      "no-unused-imports": true,
       "no-use-before-declare": true,
       "no-with-statement": true,
       "semicolon": true,
@@ -37,7 +35,7 @@
       "typedef": false,
       "typedef-whitespace": false,
       "use-named-parameter": true,
-      "valid-typeof": true,
+      "typeof-compare": true,
       "variable-name": false,
       "whitespace": false
     }

@@ -26,14 +26,14 @@ import { default as pnp, PermissionKind } from "sp-pnp-js";
 
 export default class GdprDashboard extends React.Component<IGdprDashboardProps, IGdprDashboardState> {
 
-   /**
-   * Main constructor for the component
-   */
+  /**
+  * Main constructor for the component
+  */
   constructor(props: IGdprDashboardProps) {
     super(props);
-    
+
     this.state = {
-      taskItems : [],
+      taskItems: [],
       currentUserIsAdmin: false,
       filterByCurrentUser: true,
     };
@@ -42,11 +42,11 @@ export default class GdprDashboard extends React.Component<IGdprDashboardProps, 
   }
 
   public componentWillReceiveProps(props: IGdprDashboardProps) {
-  	this.refreshTasksList();
+    this.refreshTasksList();
   }
 
   public componentDidMount() {
-  	this.refreshTasksList();
+    this.refreshTasksList();
   }
 
   public render(): React.ReactElement<IGdprDashboardProps> {
@@ -58,33 +58,33 @@ export default class GdprDashboard extends React.Component<IGdprDashboardProps, 
             <div className="ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg12">
               {
                 (this.state.currentUserIsAdmin ?
-                <div>
-                  <div className="ms-Grid">
+                  <div>
+                    <div className="ms-Grid">
                       <div className="ms-Grid-row">
-                          <div className="ms-Grid-col ms-u-sm2 ms-u-md2 ms-u-lg2">
-                            <CommandButton
-                              icon="ThumbnailView"
-                              onClick={ this._showMyTasks }>
-                              My Tasks
+                        <div className="ms-Grid-col ms-u-sm2 ms-u-md2 ms-u-lg2">
+                          <CommandButton
+                            iconProps={{ iconName: "ThumbnailView" }}
+                            onClick={this._showMyTasks}>
+                            My Tasks
                             </CommandButton>
-                          </div>
-                          <div className="ms-Grid-col ms-u-sm2 ms-u-md2 ms-u-lg2">
-                            <CommandButton
-                              icon="TaskManager"
-                              onClick={ this._showAllTasks }>
-                              All Tasks
+                        </div>
+                        <div className="ms-Grid-col ms-u-sm2 ms-u-md2 ms-u-lg2">
+                          <CommandButton
+                            iconProps={{ iconName: "TaskManager" }}
+                            onClick={this._showAllTasks}>
+                            All Tasks
                             </CommandButton>
-                          </div>
-                          <div className="ms-Grid-col ms-u-sm8 ms-u-md8 ms-u-lg8"></div>
+                        </div>
+                        <div className="ms-Grid-col ms-u-sm8 ms-u-md8 ms-u-lg8"></div>
                       </div>
+                    </div>
                   </div>
-                </div>
-                : null)
+                  : null)
               }
-              <TaskList 
-                context={ this.props.context }
-                taskItems={ this.state.taskItems }
-                onChangeTaskItem={ this._onChangeTaskItem }
+              <TaskList
+                context={this.props.context}
+                taskItems={this.state.taskItems}
+                onChangeTaskItem={this._onChangeTaskItem}
               />
             </div>
           </div>
@@ -94,77 +94,71 @@ export default class GdprDashboard extends React.Component<IGdprDashboardProps, 
   }
 
   private readCurrentUserIsAdmin() {
-    
+
     pnp.sp.web.getCurrentUserEffectivePermissions().then(perms => {
       if (pnp.sp.web.hasPermissions(perms, PermissionKind.ManageWeb)) {
-       this.state.currentUserIsAdmin = true;
-       this.setState(this.state); 
+        this.setState({ ...this.state, currentUserIsAdmin: true });
       }
     });
 
   }
 
   @autobind
-  private _showAllTasks(){
-    this.state.filterByCurrentUser = false;
-    this.state.taskItems = [];
-    this.setState(this.state); 
+  private _showAllTasks() {
+    this.setState({ ...this.state, taskItems: [], filterByCurrentUser: false });
     this.refreshTasksList();
   }
 
   @autobind
-  private _showMyTasks(){
-    this.state.filterByCurrentUser = true;
-    this.state.taskItems = [];
-    this.setState(this.state); 
+  private _showMyTasks() {
+    this.setState({ ...this.state, taskItems: [], filterByCurrentUser: true });
     this.refreshTasksList();
   }
 
   private refreshTasksList() {
     if (this.props.targetList) {
       this.fetchTasks().then((r) => {
-        this.state.taskItems = r;
-        this.setState(this.state);
+        this.setState({ ...this.state, taskItems: r });
       });
     }
   }
 
   private fetchTasks(): Promise<ITaskItem[]> {
     if (Environment.type === EnvironmentType.SharePoint ||
-        Environment.type === EnvironmentType.ClassicSharePoint) {
+      Environment.type === EnvironmentType.ClassicSharePoint) {
 
       var listOfTasks = pnp.sp.web.lists.getById(this.props.targetList).items
         .select("ID", "Title", "AssignedTo/Id", "AssignedTo/Title", "AssignedTo/Name", "Checkmark", "DueDate")
         .expand("AssignedTo");
-          
+
       if (this.state.filterByCurrentUser) {
         listOfTasks = listOfTasks.filter("AssignedToId eq " + this.props.context.pageContext.legacyPageContext.userId);
       }
 
-      return(listOfTasks.get().then((response) => {
-          var tasks: Array<ITaskItem> = new Array<ITaskItem>();
-          response.map((item: any) => {
-            tasks.push( { 
-              id: item.ID,
-              title: item.Title,
-              dueDate: new Date(item.DueDate),
-              assigneeId: item.AssignedTo.length > 0 ? item.AssignedTo[0].Id : 0,
-              assigneeLoginName: item.AssignedTo.length > 0 ? item.AssignedTo[0].Name : null,
-              assigneeFullName: item.AssignedTo.length > 0 ? item.AssignedTo[0].Title : null,
-              completed: (item.Checkmark == 1),
-            });
+      return (listOfTasks.get().then((response) => {
+        var tasks: Array<ITaskItem> = new Array<ITaskItem>();
+        response.map((item: any) => {
+          tasks.push({
+            id: item.ID,
+            title: item.Title,
+            dueDate: new Date(item.DueDate),
+            assigneeId: item.AssignedTo.length > 0 ? item.AssignedTo[0].Id : 0,
+            assigneeLoginName: item.AssignedTo.length > 0 ? item.AssignedTo[0].Name : null,
+            assigneeFullName: item.AssignedTo.length > 0 ? item.AssignedTo[0].Title : null,
+            completed: (item.Checkmark == 1),
           });
+        });
 
         return tasks;
       }));
     }
     else {
-      return(new Promise<ITaskItem[]>((resolve, reject) => {
+      return (new Promise<ITaskItem[]>((resolve, reject) => {
         resolve([]);
       }));
     }
   }
-  
+
   @autobind
   private _onChangeTaskItem(task: ITaskItem) {
 

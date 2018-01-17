@@ -92,8 +92,7 @@ export default class GdprHierarchy extends React.Component<IGdprHierarchyProps, 
   private _refreshHierarchy() {
     if (this.props.targetList) {
       this.fetchHierarchy().then((r) => {
-        this.state.hierarchyItems = r;
-        this.setState(this.state);
+        this.setState({...this.state, hierarchyItems:r});
       });
     }
   }

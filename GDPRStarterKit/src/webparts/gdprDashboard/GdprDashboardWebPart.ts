@@ -27,7 +27,7 @@ export default class GdprDashboardWebPart extends GdprBaseWebPart {
     as the selected list for the web part. 
     */
     if (propertyPath === 'targetList') {
-      this._gdprDashboardComponent.props.targetList = this.properties.targetList;
+      // this._gdprDashboardComponent.props.targetList = this.properties.targetList;
     }
 
     /*
