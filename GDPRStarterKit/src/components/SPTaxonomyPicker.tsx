@@ -95,7 +95,6 @@ export class SPTaxonomyPicker extends React.Component<ISPTaxonomyPickerProps, IS
   }
 
   public render(): React.ReactElement<ISPTaxonomyPickerProps> {
-
     return (
       <div className={css('ms-TextField', { 'is-required': this.props.required })}>
         <Label>{this.props.label}</Label>
@@ -119,7 +118,6 @@ export class SPTaxonomyPicker extends React.Component<ISPTaxonomyPickerProps, IS
 
   @autobind
   private _onChangeTaxonomyPicker(items?: ISPTaxonomyTermProps[]): void {
-
     /** Empty the array */
     let stateTerms: any[] = new Array<ISPTermObject>();
 
@@ -130,7 +128,7 @@ export class SPTaxonomyPicker extends React.Component<ISPTaxonomyPickerProps, IS
     this.setState({ ...this.state, terms: stateTerms });
 
     if (this.props.onChanged != null) {
-      this.props.onChanged(this.state.terms);
+      this.props.onChanged(stateTerms);
     }
   }
 
@@ -141,8 +139,9 @@ export class SPTaxonomyPicker extends React.Component<ISPTaxonomyPickerProps, IS
 
       let items: Array<ISPTaxonomyTermProps> = new Array<ISPTaxonomyTermProps>();
       this.terms.forEach((t: ISPTermObject) => {
-        if (t.name.toLowerCase().indexOf(filterText.toLowerCase()) >= 0)
+        if (t.name.toLowerCase().indexOf(filterText.toLowerCase()) >= 0) {
           items.push({ termId: t.guid.toString(), name: t.name });
+        }
       });
 
       return items;

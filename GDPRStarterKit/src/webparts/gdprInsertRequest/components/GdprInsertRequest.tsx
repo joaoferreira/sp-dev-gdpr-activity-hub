@@ -66,7 +66,7 @@ export default class GdprInsertRequest extends React.Component<IGdprInsertReques
   }
 
   public render(): React.ReactElement<IGdprInsertRequestProps> {
-    console.log(this.state);
+    console.log(this.state.currentRequestType);
     return (
       <div className={styles.gdprRequest}>
         <div className={styles.container}>
@@ -74,7 +74,8 @@ export default class GdprInsertRequest extends React.Component<IGdprInsertReques
             <div className="ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg12">
               <ChoiceGroup
                 label={strings.RequestTypeFieldLabel}
-                onChange={this._onChangedRequestType.bind(this)}
+                onChange={this._onChangedRequestType}
+                selectedKey={this.state.currentRequestType}
                 options={[
                   {
                     key: "Access",
@@ -315,14 +316,14 @@ export default class GdprInsertRequest extends React.Component<IGdprInsertReques
             <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
               <PrimaryButton
                 data-automation-id="saveRequest"
-                label={strings.SaveButtonText}
+                text={strings.SaveButtonText}
                 disabled={!this.state.isValid}
                 onClick={this._saveClick}
               />
               &nbsp;&nbsp;
               <Button
                 data-automation-id="cancel"
-                label={strings.CancelButtonText}
+                text={strings.CancelButtonText}
                 onClick={this._cancelClick}
               />
             </div>
@@ -339,10 +340,10 @@ export default class GdprInsertRequest extends React.Component<IGdprInsertReques
           <DialogFooter>
             <PrimaryButton
               onClick={this._insertNextClick}
-              label={strings.InsertNextLabel} />
+              text={strings.InsertNextLabel} />
             <DefaultButton
               onClick={this._goHomeClick}
-              label={strings.GoHomeLabel} />
+              text={strings.GoHomeLabel} />
           </DialogFooter>
         </Dialog>
       </div>
@@ -350,14 +351,13 @@ export default class GdprInsertRequest extends React.Component<IGdprInsertReques
   }
 
   @autobind
-  private _onChangedRequestType(ev: React.FormEvent<HTMLInputElement>, option: any):any {
-    console.log(this.state);
+  private _onChangedRequestType(ev: React.FormEvent<HTMLInputElement>, option: any): any {
     let state: any = this.state;
     state.currentRequestType = option.key;
     state.deliveryMethod = null;
     state.deliveryFormat = null;
     state.processingType = [];
-    this._updateState(state);
+    this.setState({ ...this.state, ...state });
   }
 
   @autobind
@@ -374,109 +374,121 @@ export default class GdprInsertRequest extends React.Component<IGdprInsertReques
 
     if (value != null && value.length > 0 && !emailRegEx.test(value)) {
       return (strings.DataSubjectEmailFieldValidationErrorMessage);
-    }else {
+    } else {
       return ("");
     }
   }
 
   @autobind
-  private _updateState(state: IGdprInsertRequestState): void {
-    state.isValid = this._formIsValid();
-    this.setState(state);
-  }
-
-  @autobind
   private _onChangedTitle(newValue: string): void {
-    this._updateState({ ...this.state, title: newValue });
+    let isValid: any = this._formIsValid({ ...this.state, title: newValue });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, title: newValue, isValid: isValid }));
   }
 
   @autobind
   private _onChangedDataSubject(newValue: string): void {
-    this._updateState({ ...this.state, dataSubject: newValue });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: newValue });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, dataSubject: newValue, isValid: isValid }));
   }
 
   @autobind
   private _onChangedDataSubjectEmail(newValue: string): void {
-    this._updateState({ ...this.state, dataSubjectEmail: newValue });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: newValue });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, dataSubjectEmail: newValue, isValid: isValid }));
   }
 
   @autobind
   private _onChangedVerifiedDataSubject(checked: boolean): void {
-    this._updateState({ ...this.state, verifiedDataSubject: checked });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: checked });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, verifiedDataSubject: checked, isValid: isValid }));
   }
 
   @autobind
   private _onChangedRequestAssignedTo(items: string[]): void {
-    this._updateState({ ...this.state, requestAssignedTo: items[0] });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: items });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, requestAssignedTo: items[0], isValid: isValid }));
   }
 
   @autobind
   private _onChangedRequestInsertionDate(newValue: Date): void {
-    this._updateState({ ...this.state, requestInsertionDate: newValue });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: newValue });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, requestInsertionDate: newValue, isValid: isValid }));
   }
 
   @autobind
   private _onChangedRequestDueDate(newValue: Date): void {
-    this._updateState({ ...this.state, requestDueDate: newValue });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: newValue });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, requestDueDate: newValue, isValid: isValid }));
   }
 
   @autobind
   private _onChangedAdditionalNotes(newValue: string): void {
-    this._updateState({ ...this.state, additionalNotes: newValue });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: newValue });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, additionalNotes: newValue, isValid: isValid }));
   }
 
   @autobind
   private _onChangedDeliveryMethod(terms: ISPTermObject[]): void {
     if (terms != null && terms.length > 0) {
-      this._updateState({ ...this.state, deliveryMethod: terms[0] });
+      let isValid: any = this._formIsValid({ ...this.state, dataSubject: terms[0] });
+      this.setState((prevState: any, props: any): any => ({ ...this.state, deliveryMethod: terms[0], isValid: isValid }));
     } else {
-      this._updateState({ ...this.state, deliveryMethod: null });
+      let isValid: any = this._formIsValid({ ...this.state, dataSubject: null });
+      this.setState((prevState: any, props: any): any => ({ ...this.state, deliveryMethod: null, isValid: isValid }));
     }
   }
 
   @autobind
   private _onChangedCorrectionDefinition(newValue: string): void {
-    this._updateState({ ...this.state, correctionDefinition: newValue });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: newValue });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, correctionDefinition: newValue, isValid: isValid }));
   }
 
   @autobind
   private _onChangedDeliveryFormat(terms: ISPTermObject[]): void {
     if (terms != null && terms.length > 0) {
-      this._updateState({ ...this.state, deliveryFormat: terms[0] });
+      let isValid: any = this._formIsValid({ ...this.state, dataSubject: terms[0] });
+      this.setState((prevState: any, props: any): any => ({ ...this.state, deliveryFormat: terms[0], isValid: isValid }));
     } else {
-      this._updateState({ ...this.state, deliveryFormat: null });
+      let isValid: any = this._formIsValid({ ...this.state, dataSubject: null });
+      this.setState((prevState: any, props: any): any => ({ ...this.state, deliveryFormat: null, isValid: isValid }));
     }
   }
 
   @autobind
   private _onChangedPersonalData(newValue: string): void {
-    this._updateState({ ...this.state, personalData: newValue });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: newValue });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, personalData: newValue, isValid: isValid }));
   }
 
   @autobind
   private _onChangedProcessingType(terms: ISPTermObject[]): void {
     if (terms != null && terms.length > 0) {
-      this._updateState({ ...this.state, processingType: terms });
+      let isValid: any = this._formIsValid({ ...this.state, dataSubject: terms });
+      this.setState((prevState: any, props: any): any => ({ ...this.state, processingType: terms, isValid: isValid }));
     } else {
-      this._updateState({ ...this.state, processingType: [] });
+      let isValid: any = this._formIsValid({ ...this.state, dataSubject: [] });
+      this.setState((prevState: any, props: any): any => ({ ...this.state, processingType: [], isValid: isValid }));
     }
   }
 
   @autobind
   private _onChangedNotifyApplicable(checked: boolean): void {
-    this._updateState({ ...this.state, notifyApplicable: checked });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: checked });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, notifyApplicable: checked, isValid: isValid }));
   }
 
   @autobind
   private _onChangedReason(newValue: string): void {
-    this._updateState({ ...this.state, reason: newValue });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: newValue });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, reason: newValue, isValid: isValid }));
   }
 
   @autobind
-  private _saveClick(event:any):any {
+  private _saveClick(event: any): any {
     event.preventDefault();
-    if (this._formIsValid()) {
-      let dataManager:any = new GDPRDataManager();
+    if (this._formIsValid(this.state)) {
+      let dataManager: any = new GDPRDataManager();
       dataManager.setup({
         requestsListId: this.props.targetList,
       });
@@ -534,54 +546,53 @@ export default class GdprInsertRequest extends React.Component<IGdprInsertReques
       }
 
       dataManager.insertNewRequest(request).then((itemId: number) => {
-        this._updateState({ ...this.state, showDialogResult: true });
+        this.setState((prevState: any, props: any): any => ({ ...this.state, showDialogResult: true }));
       });
     }
   }
 
   @autobind
-  private _cancelClick(event:any):any {
+  private _cancelClick(event: any): any {
     event.preventDefault();
     window.history.back();
   }
 
-  private _formIsValid(): boolean {
+  private _formIsValid(state: any): boolean {
     let isValid: boolean =
-      (this.state.title != null && this.state.title.length > 0) &&
-      (this.state.dataSubject != null && this.state.dataSubject.length > 0) &&
-      (this.state.requestAssignedTo != null && this.state.requestAssignedTo.length > 0) &&
-      (this.state.requestInsertionDate != null) &&
-      (this.state.requestDueDate != null);
+      (state.title != null && state.title.length > 0) &&
+      (state.dataSubject != null && state.dataSubject.length > 0) &&
+      (state.requestAssignedTo != null && state.requestAssignedTo.length > 0) &&
+      (state.requestInsertionDate != null) &&
+      (state.requestDueDate != null);
 
-    if (this.state.currentRequestType == "Access" || this.state.currentRequestType == "Export") {
-      isValid = isValid && this.state.deliveryMethod != null;
+    if (state.currentRequestType == "Access" || state.currentRequestType == "Export") {
+      isValid = isValid && state.deliveryMethod != null;
     }
-    if (this.state.currentRequestType == "Export") {
-      isValid = isValid && this.state.deliveryFormat != null;
+    if (state.currentRequestType == "Export") {
+      isValid = isValid && state.deliveryFormat != null;
     }
-    if (this.state.currentRequestType == "Correct") {
-      isValid = isValid && this.state.correctionDefinition != null && this.state.correctionDefinition.length > 0;
+    if (state.currentRequestType == "Correct") {
+      isValid = isValid && state.correctionDefinition != null && state.correctionDefinition.length > 0;
     }
-    if (this.state.currentRequestType == "Objection") {
-      isValid = isValid && this.state.processingType != null && this.state.processingType.length > 0;
+    if (state.currentRequestType == "Objection") {
+      isValid = isValid && state.processingType != null && state.processingType.length > 0;
     }
-
     return (isValid);
   }
 
   @autobind
-  private _closeInsertDialogResult():void {
-    this._updateState({ ...this.state, showDialogResult: false });
+  private _closeInsertDialogResult(): void {
+    this.setState((prevState: any, props: any): any => ({ ...this.state, showDialogResult: false}));
   }
 
   @autobind
-  private _insertNextClick(event:any):void {
+  private _insertNextClick(event: any): void {
     event.preventDefault();
     this._closeInsertDialogResult();
   }
 
   @autobind
-  private _goHomeClick(event:any):void {
+  private _goHomeClick(event: any): void {
     event.preventDefault();
     pnp.sp.web.select("Url").get().then((web) => {
       window.location.replace(web.Url);

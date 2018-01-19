@@ -1,3 +1,4 @@
+// tslint:disable-next-line:max-line-length
 import * as React from 'react';
 import styles from './GdprInsertEvent.module.scss';
 import { IGdprInsertEventProps } from './IGdprInsertEventProps';
@@ -79,6 +80,7 @@ export default class GdprInsertEvent extends React.Component<IGdprInsertEventPro
           <div className={`ms-Grid-row ms-bgColor-neutralLight ms-fontColor-black ${styles.row}`}>
             <div className="ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg12">
               <ChoiceGroup
+                selectedKey={this.state.currentEventType}
                 label={strings.EventTypeFieldLabel}
                 onChange={this._onChangedEventType}
                 options={[
@@ -657,14 +659,14 @@ export default class GdprInsertEvent extends React.Component<IGdprInsertEventPro
             <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
               <PrimaryButton
                 data-automation-id='saveRequest'
-                label={strings.SaveButtonText}
+                text={strings.SaveButtonText}
                 disabled={!this.state.isValid}
                 onClick={this._saveClick}
               />
               &nbsp;&nbsp;
               <Button
                 data-automation-id='cancel'
-                label={strings.CancelButtonText}
+                text={strings.CancelButtonText}
                 onClick={this._cancelClick}
               />
             </div>
@@ -676,15 +678,14 @@ export default class GdprInsertEvent extends React.Component<IGdprInsertEventPro
           onDismiss={this._closeInsertDialogResult}
           title={strings.ItemInsertedDialogTitle}
           subText={strings.ItemInsertedDialogSubText}
-          isBlocking={true}
-        >
+          isBlocking={true}>
           <DialogFooter>
             <PrimaryButton
               onClick={this._insertNextClick}
-              label={strings.InsertNextLabel} />
+              text={strings.InsertNextLabel} />
             <DefaultButton
               onClick={this._goHomeClick}
-              label={strings.GoHomeLabel} />
+              text={strings.GoHomeLabel} />
           </DialogFooter>
         </Dialog>
       </div>
@@ -703,263 +704,296 @@ export default class GdprInsertEvent extends React.Component<IGdprInsertEventPro
       : `${strings.NotifiedByFieldValidationErrorMessage} ${value.length}.`;
   }
 
-  @autobind
-  private _updateState(state: IGdprInsertEventState): void {
-    state.isValid = this._formIsValid();
-    this.setState(state);
-  }
+
 
   @autobind
-  private _onChangedEventType(ev: React.FormEvent<HTMLInputElement>, option: any) {
-    let state: any = this.state;
-    state.currentEventType = option.key;
-    state.breachType = null;
-    state.riskType = null;
-    state.severity = null;
-    state.includesSensitiveData = null;
-    state.consentType = [];
-    state.consentWithdrawalType = [];
-    state.originalConsent = 0;
-    state.processingType = null;
-    state.processors = [];
-
-    this._updateState(state);
+  private _onChangedEventType(ev: React.FormEvent<HTMLInputElement>, option: any): void {
+    // let isValid: boolean = this._formIsValid();
+    this.setState((prevState: any, props: any): any => ({
+      ...this.state,
+      currentEventType: option.key,
+      breachType: null,
+      riskType: null,
+      severity: null,
+      includesSensitiveData: null,
+      consentType: [],
+      consentWithdrawalType: [],
+      originalConsent: 0,
+      processingType: null,
+      processors: [],
+      // isValid: isValid
+    }));
   }
 
   @autobind
   private _onChangedEstimatedAffectedSubjectsToBeDetermined(checked: boolean): void {
-    this._updateState({ ...this.state, toBeDetermined: checked });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: checked });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, toBeDetermined: checked, isValid: isValid }));
   }
 
   private _getErrorMessageEstimatedAffectedSubjects(value: string): string {
 
     if (value != null && value.length > 0 && isNaN(Number(value))) {
       return (strings.EstimatedAffectedSubjectsFieldValidationErrorMessage);
-    }
-    else {
+    } else {
       return ("");
     }
   }
 
   @autobind
   private _onChangedTitle(newValue: string): void {
-    this._updateState({ ...this.state, title: newValue });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: newValue });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, title: newValue, isValid: isValid }));
   }
 
   @autobind
   private _onChangedNotifiedBy(newValue: string): void {
-    this._updateState({ ...this.state, notifiedBy: newValue });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: newValue });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, notifiedBy: newValue, isValid: isValid }));
   }
 
   @autobind
   private _onChangedEventAssignedTo(items: string[]): void {
-    this._updateState({ ...this.state, eventAssignedTo: items[0] });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: items[0] });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, eventAssignedTo: items[0], isValid: isValid }));
   }
 
   @autobind
   private _onChangedEventStartDate(newValue: Date): void {
-    this._updateState({ ...this.state, eventStartDate: newValue });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: newValue });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, eventStartDate: newValue, isValid: isValid }));
   }
 
   @autobind
   private _onChangedEventEndDate(newValue: Date): void {
-    this._updateState({ ...this.state, eventEndDate: newValue });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: newValue });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, eventEndDate: newValue, isValid: isValid }));
   }
 
   @autobind
   private _onChangedPostEventReport(newValue: string): void {
-    this._updateState({ ...this.state, postEventReport: newValue });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: newValue });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, postEventReport: newValue, isValid: isValid }));
   }
 
   @autobind
   private _onChangedAdditionalNotes(newValue: string): void {
-    this._updateState({ ...this.state, additionalNotes: newValue });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: newValue });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, additionalNotes: newValue, isValid: isValid }));
   }
 
   @autobind
   private _onChangedBreachType(terms: ISPTermObject[]): void {
     if (terms != null && terms.length > 0) {
-      this._updateState({ ...this.state, breachType: terms[0] });
-    }
-    else {
-      this._updateState({ ...this.state, breachType: null });
+      let isValid: any = this._formIsValid({ ...this.state, dataSubject: terms[0] });
+      this.setState((prevState: any, props: any): any => ({ ...this.state, breachType: terms[0], isValid: isValid }));
+    } else {
+      let isValid: any = this._formIsValid({ ...this.state, dataSubject: null });
+      this.setState((prevState: any, props: any): any => ({ ...this.state, breachType: null, isValid: isValid }));
     }
   }
 
   @autobind
   private _onChangedRiskType(terms: ISPTermObject[]): void {
     if (terms != null && terms.length > 0) {
-      this._updateState({ ...this.state, riskType: terms });
-    }
-    else {
-      this._updateState({ ...this.state, riskType: [] });
+      let isValid: any = this._formIsValid({ ...this.state, dataSubject: terms[0] });
+      this.setState((prevState: any, props: any): any => ({ ...this.state, riskType: terms, isValid: isValid }));
+    } else {
+      let isValid: any = this._formIsValid({ ...this.state, dataSubject: null });
+      this.setState((prevState: any, props: any): any => ({ ...this.state, riskType: [], isValid: isValid }));
     }
   }
 
   @autobind
   private _onChangedSeverity(terms: ISPTermObject[]): void {
     if (terms != null && terms.length > 0) {
-      this._updateState({ ...this.state, severity: terms[0] });
-    }
-    else {
-      this._updateState({ ...this.state, severity: null });
+      let isValid: any = this._formIsValid({ ...this.state, dataSubject: terms[0] });
+      this.setState((prevState: any, props: any): any => ({ ...this.state, severity: terms[0], isValid: isValid }));
+    } else {
+      let isValid: any = this._formIsValid({ ...this.state, dataSubject: null });
+      this.setState((prevState: any, props: any): any => ({ ...this.state, severity: null, isValid: isValid }));
     }
   }
 
   @autobind
   private _onChangedDPANotified(newValue: boolean): void {
-    this._updateState({ ...this.state, dpaNotified: newValue });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: newValue });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, dpaNotified: newValue, isValid: isValid }));
   }
 
   @autobind
   private _onChangedDPANotificationDate(newValue: Date): void {
-    this._updateState({ ...this.state, dpaNotificationDate: newValue });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: newValue });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, dpaNotificationDate: newValue, isValid: isValid }));
 
   }
 
   @autobind
   private _onChangedIncludesChildrenInProgress(checked: boolean): void {
-    this._updateState({ ...this.state, includesChildrenInProgress: checked });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: checked });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, includesChildrenInProgress: checked, isValid: isValid }));
   }
 
   @autobind
   private _onChangedEstimatedAffectedSubjects(newValue: number): void {
-    this._updateState({ ...this.state, estimatedAffectedSubjects: newValue });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: newValue });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, estimatedAffectedSubjects: newValue, isValid: isValid }));
   }
 
   @autobind
   private _onChangedIncludesChildren(newValue: boolean): void {
-    this._updateState({ ...this.state, includesChildren: newValue });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: newValue });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, includesChildren: newValue, isValid: isValid }));
 
   }
 
   @autobind
   private _onChangedActionPlan(newValue: string): void {
-    this._updateState({ ...this.state, actionPlan: newValue });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: newValue });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, actionPlan: newValue, isValid: isValid }));
 
   }
 
   @autobind
   private _onChangedBreachResolved(newValue: boolean): void {
-    this._updateState({ ...this.state, breachResolved: newValue });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: newValue });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, breachResolved: newValue, isValid: isValid }));
   }
 
   @autobind
   private _onChangedActionsTaken(newValue: string): void {
-    this._updateState({ ...this.state, actionsTaken: newValue });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: newValue });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, actionsTaken: newValue, isValid: isValid }));
 
   }
 
   @autobind
   private _onChangedIncludesSensitiveData(terms: ISPTermObject[]): void {
     if (terms != null && terms.length > 0) {
-      this._updateState({ ...this.state, includesSensitiveData: terms[0] });
-    }
-    else {
-      this._updateState({ ...this.state, includesSensitiveData: null });
+      let isValid: any = this._formIsValid({ ...this.state, dataSubject: terms[0] });
+      this.setState((prevState: any, props: any): any => ({ ...this.state, includesSensitiveData: terms[0], isValid: isValid }));
+    } else {
+      let isValid: any = this._formIsValid({ ...this.state, dataSubject: null });
+      this.setState((prevState: any, props: any): any => ({ ...this.state, includesSensitiveData: null, isValid: isValid }));
     }
   }
 
   @autobind
   private _onChangedConsentIsInternal(checked: boolean): void {
-    this._updateState({ ...this.state, consentIsInternal: checked });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: checked });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, consentIsInternal: checked, isValid: isValid }));
   }
 
   @autobind
   private _onChangedDataSubjectIsChild(checked: boolean): void {
-    this._updateState({ ...this.state, dataSubjectIsChild: checked });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: checked });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, dataSubjectIsChild: checked, isValid: isValid }));
   }
 
   @autobind
   private _onChangedIndirectDataProvider(checked: boolean): void {
-    this._updateState({ ...this.state, indirectDataProvider: checked });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: checked });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, indirectDataProvider: checked, isValid: isValid }));
   }
 
   @autobind
   private _onChangedDataProvider(newValue: string): void {
-    this._updateState({ ...this.state, dataProvider: newValue });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: newValue });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, dataProvider: newValue, isValid: isValid }));
   }
 
   @autobind
   private _onChangedConsentNotes(newValue: string): void {
-    this._updateState({ ...this.state, consentNotes: newValue });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: newValue });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, consentNotes: newValue, isValid: isValid }));
   }
 
   @autobind
   private _onChangedConsentType(terms: ISPTermObject[]): void {
     if (terms != null && terms.length > 0) {
-      this._updateState({ ...this.state, consentType: terms });
-    }
-    else {
-      this._updateState({ ...this.state, consentType: [] });
+      let isValid: any = this._formIsValid({ ...this.state, dataSubject: terms[0] });
+      this.setState((prevState: any, props: any): any => ({ ...this.state, consentType: terms, isValid: isValid }));
+    } else {
+      let isValid: any = this._formIsValid({ ...this.state, dataSubject: null });
+      this.setState((prevState: any, props: any): any => ({ ...this.state, consentType: [], isValid: isValid }));
     }
   }
 
   @autobind
   private _onChangedConsentWithdrawalType(terms: ISPTermObject[]): void {
     if (terms != null && terms.length > 0) {
-      this._updateState({ ...this.state, consentWithdrawalType: terms });
-    }
-    else {
-      this._updateState({ ...this.state, consentWithdrawalType: [] });
+      let isValid: any = this._formIsValid({ ...this.state, dataSubject: terms[0] });
+      this.setState((prevState: any, props: any): any => ({ ...this.state, consentWithdrawalType: terms, isValid: isValid }));
+    } else {
+      let isValid: any = this._formIsValid({ ...this.state, dataSubject: null });
+      this.setState((prevState: any, props: any): any => ({ ...this.state, consentWithdrawalType: [], isValid: isValid }));
     }
   }
 
   @autobind
   private _onChangedConsentWithdrawalNotes(newValue: string): void {
-    this._updateState({ ...this.state, consentWithdrawalNotes: newValue });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: newValue });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, consentWithdrawalNotes: newValue, isValid: isValid }));
   }
 
   @autobind
   private _onChangedOriginalConsentAvailable(checked: boolean): void {
-    this._updateState({ ...this.state, originalConsentAvailable: checked });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: checked });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, originalConsentAvailable: checked, isValid: isValid }));
   }
 
   @autobind
   private _onChangedOriginalConsent(selectedItemIds: number[]): void {
-    this._updateState({ ...this.state, originalConsent: selectedItemIds[0] });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: selectedItemIds[0] });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, originalConsent: selectedItemIds[0], isValid: isValid }));
   }
 
   @autobind
   private _onChangedNotifyApplicable(checked: boolean): void {
-    this._updateState({ ...this.state, notifyApplicable: checked });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: checked });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, notifyApplicable: checked, isValid: isValid }));
   }
 
   @autobind
   private _onChangedProcessingType(terms: ISPTermObject[]): void {
     if (terms != null && terms.length > 0) {
-      this._updateState({ ...this.state, processingType: terms });
-    }
-    else {
-      this._updateState({ ...this.state, processingType: [] });
+      let isValid: any = this._formIsValid({ ...this.state, dataSubject: terms[0] });
+      this.setState((prevState: any, props: any): any => ({ ...this.state, processingType: terms, isValid: isValid }));
+    } else {
+      let isValid: any = this._formIsValid({ ...this.state, dataSubject: null });
+      this.setState((prevState: any, props: any): any => ({ ...this.state, processingType: [], isValid: isValid }));
     }
   }
 
   @autobind
   private _onChangedProcessors(items: string[]): void {
-    this._updateState({ ...this.state, processors: items });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: items[0] });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, processors: items, isValid: isValid }));
   }
 
   @autobind
   private _onChangedArchivedData(newValue: string): void {
-    this._updateState({ ...this.state, archivedData: newValue });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: newValue });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, archivedData: newValue, isValid: isValid }));
   }
 
   @autobind
   private _onChangedAnonymize(checked: boolean): void {
-    this._updateState({ ...this.state, anonymize: checked });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: checked });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, anonymize: checked, isValid: isValid }));
   }
 
   @autobind
   private _onChangedArchivingNotes(newValue: string): void {
-    this._updateState({ ...this.state, archivingNotes: newValue });
+    let isValid: any = this._formIsValid({ ...this.state, dataSubject: newValue });
+    this.setState((prevState: any, props: any): any => ({ ...this.state, archivingNotes: newValue, isValid: isValid }));
   }
 
   @autobind
-  private _saveClick(event) {
+  private _saveClick(event: any): void {
     event.preventDefault();
-    if (this._formIsValid()) {
-      let dataManager = new GDPRDataManager();
+    if (this._formIsValid(this.state)) {
+      let dataManager: any = new GDPRDataManager();
       dataManager.setup({
         eventsListId: this.props.targetList,
       });
@@ -1069,66 +1103,65 @@ export default class GdprInsertEvent extends React.Component<IGdprInsertEventPro
           eventItem.archivingNotes = this.state.archivingNotes;
           break;
       }
-
       dataManager.insertNewEvent(eventItem).then((itemId: number) => {
-        this._updateState({ ...this.state, showDialogResult: true });
+        this.setState((prevState: any, props: any): any => ({ ...this.state, showDialogResult: true}));
       });
     }
   }
 
   @autobind
-  private _cancelClick(event) {
+  private _cancelClick(event: any): void {
     event.preventDefault();
     window.history.back();
   }
 
-  private _formIsValid(): boolean {
+  private _formIsValid(state: any): boolean {
     let isValid: boolean =
-      (this.state.title != null && this.state.title.length > 0) &&
-      (this.state.notifiedBy != null && this.state.notifiedBy.length > 0) &&
-      (this.state.eventAssignedTo != null && this.state.eventAssignedTo.length > 0) &&
-      (this.state.eventStartDate != null) &&
-      (this.state.postEventReport != null && this.state.postEventReport.length > 0);
+      (state.title != null && state.title.length > 0) &&
+      (state.notifiedBy != null && state.notifiedBy.length > 0) &&
+      (state.eventAssignedTo != null && state.eventAssignedTo.length > 0) &&
+      (state.eventStartDate != null) &&
+      (state.postEventReport != null && state.postEventReport.length > 0);
 
-    if (this.state.currentEventType == "DataBreach") {
-      isValid = isValid && this.state.breachType != null;
-      isValid = isValid && this.state.severity != null;
-      isValid = isValid && ((this.state.dpaNotified && this.state.dpaNotificationDate != null) || (!this.state.dpaNotified));
+    if (state.currentEventType == "DataBreach") {
+      isValid = isValid && state.breachType != null;
+      isValid = isValid && state.severity != null;
+      isValid = isValid && ((state.dpaNotified && state.dpaNotificationDate != null) || (!state.dpaNotified));
     }
-    if (this.state.currentEventType == "IdentityRisk") {
-      isValid = isValid && this.state.riskType != null;
-      isValid = isValid && this.state.severity != null;
+    if (state.currentEventType == "IdentityRisk") {
+      isValid = isValid && state.riskType != null;
+      isValid = isValid && state.severity != null;
     }
-    if (this.state.currentEventType == "DataConsent") {
-      isValid = isValid && this.state.consentType != null && this.state.consentType.length > 0;
+    if (state.currentEventType == "DataConsent") {
+      isValid = isValid && state.consentType != null && state.consentType.length > 0;
     }
-    if (this.state.currentEventType == "DataConsentWithdrawal") {
-      isValid = isValid && this.state.consentWithdrawalType != null && this.state.consentWithdrawalType.length > 0;
-      isValid = isValid && ((this.state.originalConsentAvailable && this.state.originalConsent > 0) || (!this.state.originalConsentAvailable));
+    if (state.currentEventType == "DataConsentWithdrawal") {
+      isValid = isValid && state.consentWithdrawalType != null && state.consentWithdrawalType.length > 0;
+      isValid = isValid && ((state.originalConsentAvailable && state.originalConsent > 0) || (!state.originalConsentAvailable));
     }
-    if (this.state.currentEventType == "DataProcessing") {
-      isValid = isValid && this.state.processingType != null && this.state.processingType.length > 0;
-      isValid = isValid && this.state.processors != null && this.state.processors.length > 0;
+    if (state.currentEventType == "DataProcessing") {
+      isValid = isValid && state.processingType != null && state.processingType.length > 0;
+      isValid = isValid && state.processors != null && state.processors.length > 0;
     }
-    if (this.state.currentEventType == "DataArchived") {
+    if (state.currentEventType == "DataArchived") {
     }
 
     return (isValid);
   }
 
   @autobind
-  private _closeInsertDialogResult() {
-    this._updateState({ ...this.state, showDialogResult: false });
+  private _closeInsertDialogResult(): void {
+    this.setState((prevState: any, props: any): any => ({ ...this.state, showDialogResult: false}));
   }
 
   @autobind
-  private _insertNextClick(event) {
+  private _insertNextClick(event: any): void {
     event.preventDefault();
     this._closeInsertDialogResult();
   }
 
   @autobind
-  private _goHomeClick(event) {
+  private _goHomeClick(event: any): void {
     event.preventDefault();
     pnp.sp.web.select("Url").get().then((web) => {
       window.location.replace(web.Url);

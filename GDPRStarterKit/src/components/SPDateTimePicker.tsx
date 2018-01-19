@@ -168,13 +168,13 @@ export class SPDateTimePicker extends React.Component<ISPDateTimePickerProps, IS
     if (date == null)
       return;
     this.setState({ ...this.state, date: date });
-    this.saveFullDate();
+    this.saveFullDate({ ...this.state, date: date });
   }
 
   @autobind
   private _hoursChanged(value: string): void {
     this.setState({ ...this.state, hours: Number(value) });
-    this.saveFullDate();
+    this.saveFullDate({ ...this.state, hours: Number(value) });
   }
 
   @autobind
@@ -188,7 +188,7 @@ export class SPDateTimePicker extends React.Component<ISPDateTimePickerProps, IS
   @autobind
   private _minutesChanged(newValue: string): void {
     this.setState({ ...this.state, minutes: Number(newValue) });
-    this.saveFullDate();
+    this.saveFullDate({ ...this.state, minutes: Number(newValue) });
   }
 
   @autobind
@@ -202,7 +202,7 @@ export class SPDateTimePicker extends React.Component<ISPDateTimePickerProps, IS
   @autobind
   private _secondsChanged(newValue: string): void {
     this.setState({ ...this.state, seconds: Number(newValue) });
-    this.saveFullDate();
+    this.saveFullDate({ ...this.state, seconds: Number(newValue) });
   }
 
   @autobind
@@ -213,24 +213,24 @@ export class SPDateTimePicker extends React.Component<ISPDateTimePickerProps, IS
       : `${this.props.secondsValidationError}.`;
   }
 
-  private saveFullDate(): void {
-    if (this.state.date == null)
+  private saveFullDate(state:any): void {
+    if (state.date == null) {
       return;
-    var finalDate = new Date(this.state.date.toISOString());
-    finalDate.setHours(this.state.hours);
-    finalDate.setMinutes(this.state.minutes);
-    finalDate.setSeconds(this.props.includeSeconds ? this.state.seconds : 0);
+    }
+    var finalDate: any = new Date(state.date.toISOString());
+    finalDate.setHours(state.hours);
+    finalDate.setMinutes(state.minutes);
+    finalDate.setSeconds(this.props.includeSeconds ? state.seconds : 0);
 
     if (finalDate != null) {
-      var finalDateAsString: string = '';
+      var finalDateAsString: string = "";
       if (this.props.formatDate) {
         finalDateAsString = this.props.formatDate(finalDate);
-      }
-      else {
+      } else {
         finalDateAsString = finalDate.toString();
       }
     }
-    this.setState({ ...this.state, fullDate: finalDateAsString });
+    this.setState({ ...state, fullDate: finalDateAsString });
     if (this.props.onChanged != null) {
       this.props.onChanged(finalDate);
     }

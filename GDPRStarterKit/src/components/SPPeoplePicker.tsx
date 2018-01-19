@@ -91,7 +91,7 @@ export class SPPeoplePicker extends React.Component<ISPPeoplePickerProps, ISPPeo
         this.setState({ ...this.state, items: stateItems });
 
         if (this.props.onChanged != null) {
-            this.props.onChanged(this.state.items);
+            this.props.onChanged(stateItems);
         }
     }
 

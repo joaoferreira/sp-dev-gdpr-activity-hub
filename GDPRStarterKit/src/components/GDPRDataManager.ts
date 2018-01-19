@@ -1,11 +1,11 @@
 /// <reference types="es6-promise" />
 
-import { 
+import {
     // IItem, 
     // IGDPREvent,
     // IGDPRRequest,
     // IGDPRIncident,
-    ITaxonomyTerm, 
+    ITaxonomyTerm,
     IIncidentDataBreach,
     IIncidentIdentityRisk,
     IEventDataArchived,
@@ -16,16 +16,16 @@ import {
     IRequestCorrectPersonalData,
     IRequestErasePersonalData,
     IRequestExportPersonalData,
-    IRequestObjectionToProcessing     
+    IRequestObjectionToProcessing
 } from '../domain_model/GDPR_domain_model';
-import { default as pnp, ItemAddResult, WebEnsureUserResult }  from "sp-pnp-js";
+import { default as pnp, ItemAddResult, WebEnsureUserResult } from "sp-pnp-js";
 
 export interface IGDPRDataManager {
     setup(settings: any): void;
     insertNewRequest(request: IRequestAccessPersonalData | IRequestCorrectPersonalData |
         IRequestErasePersonalData | IRequestExportPersonalData |
         IRequestObjectionToProcessing): Promise<number>;
-    insertNewEvent(event: IEventDataConsent | IEventDataConsentWithdrawal | 
+    insertNewEvent(event: IEventDataConsent | IEventDataConsentWithdrawal |
         IEventDataProcessing | IEventDataArchived |
         IIncidentDataBreach | IIncidentIdentityRisk): Promise<number>;
 }
@@ -42,8 +42,7 @@ export class GDPRDataManager implements IGDPRDataManager {
 
     public setup(settings: any): void {
         let s = <IGDPRDataManagerSharePointSettings>settings;
-        if (s != null)
-        {
+        if (s != null) {
             if (s.requestsListId != null && s.requestsListId.length > 0) this.requestsListId = s.requestsListId;
             if (s.eventsListId != null && s.eventsListId.length > 0) this.eventsListId = s.eventsListId;
         }
@@ -52,10 +51,10 @@ export class GDPRDataManager implements IGDPRDataManager {
     public insertNewRequest(request: IRequestAccessPersonalData | IRequestCorrectPersonalData |
         IRequestErasePersonalData | IRequestExportPersonalData |
         IRequestObjectionToProcessing): Promise<number> {
-        
-        return(new Promise<number>((resolve, reject) => {
-            this.resolveUserId(request.requestAssignedTo).then((requestAssignedToId: number) => {
 
+        return (new Promise<number>((resolve, reject) => {
+            this.resolveUserId(request.requestAssignedTo).then((requestAssignedToId: number) => {
+                console.log(request);
                 let mappedRequest: any = {
                     Title: request.title,
                     GDPRDataSubject: request.dataSubject,
@@ -67,8 +66,7 @@ export class GDPRDataManager implements IGDPRDataManager {
                     GDPRNotes: request.additionalNotes,
                 };
 
-                switch (request.kind)
-                {
+                switch (request.kind) {
                     case "Access":
                         mappedRequest.ContentTypeId = "0x0100A16621D3EDF4F141847640F9058A5B730100CAD083221153F240A5DA2C3CFDF2C451";
                         mappedRequest.GDPRDeliveryMethod = {
@@ -119,18 +117,17 @@ export class GDPRDataManager implements IGDPRDataManager {
         }));
     }
 
-    public insertNewEvent(event: IEventDataConsent | IEventDataConsentWithdrawal | 
+    public insertNewEvent(event: IEventDataConsent | IEventDataConsentWithdrawal |
         IEventDataProcessing | IEventDataArchived |
         IIncidentDataBreach | IIncidentIdentityRisk): Promise<number> {
 
-        return(new Promise<number>((resolve, reject) => {
+        return (new Promise<number>((resolve, reject) => {
 
             let dataProcessors: number[] = [];
 
-            if (event.kind == "DataProcessing")
-            {
+            if (event.kind == "DataProcessing") {
                 let processorsResolvers = event.processors.map(p => {
-                    return(this.resolveUserId(p));
+                    return (this.resolveUserId(p));
                 });
                 Promise.all(processorsResolvers).then(processors => {
                     dataProcessors = processors;
@@ -149,13 +146,11 @@ export class GDPRDataManager implements IGDPRDataManager {
                     GDPRNotes: event.additionalNotes,
                 };
 
-                switch (event.kind)
-                {
+                switch (event.kind) {
                     case "DataConsent":
                         mappedEvent.ContentTypeId = "0x0100B506463210A9D340A2E0E0A0889DC892040086569F519007EB40AE2411EDAB6A61E8";
                         mappedEvent.GDPRConsentIsInternal = event.consentIsInternal;
-                        if (event.includesSensitiveData)
-                        {
+                        if (event.includesSensitiveData) {
                             mappedEvent.GDPRIncludesSensitiveData = {
                                 __metadata: { type: 'SP.Taxonomy.TaxonomyFieldValue' },
                                 Label: event.includesSensitiveData.Label,
@@ -176,7 +171,7 @@ export class GDPRDataManager implements IGDPRDataManager {
                         mappedEvent.GDPRWithdrawalNotes = event.withdrawalNotes;
                         mappedEvent.GDPRConsentLookupAvailable = event.originalConsentAvailable;
                         mappedEvent.GDPRConsentLookupId = event.originalConsentId;
-                        mappedEvent.GDPRNotifyExternalProcessor = event.notifyThirdParties;                
+                        mappedEvent.GDPRNotifyExternalProcessor = event.notifyThirdParties;
                         break;
                     case "DataProcessing":
                         mappedEvent.ContentTypeId = "0x0100B506463210A9D340A2E0E0A0889DC8920300BA08C9FB525ED848AC38713D45981877";
@@ -187,8 +182,7 @@ export class GDPRDataManager implements IGDPRDataManager {
                         break;
                     case "DataArchived":
                         mappedEvent.ContentTypeId = "0x0100B506463210A9D340A2E0E0A0889DC89207001AD2CE357E64F546B5BEE2786EB34571";
-                        if (event.includesSensitiveData)
-                        {
+                        if (event.includesSensitiveData) {
                             mappedEvent.GDPRIncludesSensitiveData = {
                                 __metadata: { type: 'SP.Taxonomy.TaxonomyFieldValue' },
                                 Label: event.includesSensitiveData.Label,
@@ -246,26 +240,24 @@ export class GDPRDataManager implements IGDPRDataManager {
         }));
     }
 
-    private resolveUserId(username: string) : Promise<number> {
-        return(new Promise<number>((resolve, reject) => {
-            if (username != undefined)
-            {
+    private resolveUserId(username: string): Promise<number> {
+        return (new Promise<number>((resolve, reject) => {
+            if (username != undefined) {
                 pnp.sp.web.ensureUser("i:0#.f|membership|" + username)
                     .then((result: WebEnsureUserResult) => {
                         resolve(result.data.Id);
                     })
                     .catch((e: any) => {
-                        reject(e);                
+                        reject(e);
                     });
             }
-            else
-            {
+            else {
                 resolve(0);
             }
         }));
     }
 
-    private prepareTaxonomyMultivalues(terms: ITaxonomyTerm[]) : string {
+    private prepareTaxonomyMultivalues(terms: ITaxonomyTerm[]): string {
 
         let termsValuesString: string = "";
         terms.forEach(t => {
@@ -273,6 +265,6 @@ export class GDPRDataManager implements IGDPRDataManager {
         });
         termsValuesString = termsValuesString.substring(0, termsValuesString.length - 1);
 
-        return(termsValuesString);
+        return (termsValuesString);
     }
 }

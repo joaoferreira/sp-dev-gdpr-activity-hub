@@ -123,7 +123,7 @@ export class SPLookupItemsPicker extends React.Component<ISPLookupItemsPickerPro
     this.setState({ ...this.state, itemsIds: stateItemsIds });
 
     if (this.props.onChanged != null) {
-      this.props.onChanged(this.state.itemsIds);
+      this.props.onChanged(stateItemsIds);
     }
   }
 

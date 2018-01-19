@@ -1,10 +1,10 @@
-import { ISPTermObject } from '../../../components/SPTermStoreService';
+import { ISPTermObject } from "../../../components/SPTermStoreService";
 
 export interface IGdprInsertEventState {
   currentEventType: string;
   isValid: boolean;
   showDialogResult: boolean;
-  
+
   title?: string;
   notifiedBy?: string;
   eventAssignedTo?: string;
