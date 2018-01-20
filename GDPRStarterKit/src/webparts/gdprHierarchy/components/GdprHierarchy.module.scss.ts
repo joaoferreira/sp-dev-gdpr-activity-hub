@@ -1,14 +1,14 @@
 /* tslint:disable */
 require('./GdprHierarchy.module.css');
 const styles = {
-  helloWorld: 'helloWorld_aad25058',
-  container: 'container_aad25058',
-  GDPRHierarchyTitle: 'GDPRHierarchyTitle_aad25058',
-  hierarchyItem: 'hierarchyItem_aad25058',
-  row: 'row_aad25058',
-  listItem: 'listItem_aad25058',
-  button: 'button_aad25058',
-  label: 'label_aad25058',
+  helloWorld: 'helloWorld_59b5fa21',
+  container: 'container_59b5fa21',
+  GDPRHierarchyTitle: 'GDPRHierarchyTitle_59b5fa21',
+  hierarchyItem: 'hierarchyItem_59b5fa21',
+  row: 'row_59b5fa21',
+  listItem: 'listItem_59b5fa21',
+  button: 'button_59b5fa21',
+  label: 'label_59b5fa21',
 };
 
 export default styles;

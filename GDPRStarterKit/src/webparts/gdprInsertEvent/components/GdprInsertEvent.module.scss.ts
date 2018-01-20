@@ -1,10 +1,10 @@
 /* tslint:disable */
 require('./GdprInsertEvent.module.css');
 const styles = {
-  gdprEvent: 'gdprEvent_222e895c',
-  container: 'container_222e895c',
-  row: 'row_222e895c',
-  listItem: 'listItem_222e895c',
+  gdprEvent: 'gdprEvent_36fc80e6',
+  container: 'container_36fc80e6',
+  row: 'row_36fc80e6',
+  listItem: 'listItem_36fc80e6',
 };
 
 export default styles;
